@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const db = require('./models/database');
@@ -79,6 +80,15 @@ app.use((req, res) => {
 // Start server
 async function startServer() {
     try {
+        // Ensure required directories exist
+        const dirs = ['data', 'uploads'];
+        dirs.forEach(dir => {
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+                console.log(`Created directory: ${dir}`);
+            }
+        });
+
         // Connect to database
         await db.connect();
         console.log('Database connected successfully');
