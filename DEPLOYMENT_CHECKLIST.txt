@@ -1,0 +1,143 @@
+DEPLOYMENT CHECKLIST - Harrington Capital Website
+==================================================
+
+STEP 1: PREPARE YOUR FILES
+---------------------------
+[ ] All files saved in backup folder
+[ ] Test website works locally
+[ ] All features tested
+[ ] No errors in browser console
+
+
+STEP 2: CHOOSE HOSTING
+-----------------------
+[ ] FREE Option: GitHub Pages + Railway
+[ ] BUDGET Option: VPS ($5/month)
+[ ] PRO Option: AWS/Google Cloud
+
+
+STEP 3: HOST FRONTEND
+---------------------
+[ ] Create GitHub account
+[ ] Upload files to GitHub repository
+[ ] Enable GitHub Pages
+[ ] Test frontend loads correctly
+[ ] Note your GitHub Pages URL
+
+
+STEP 4: HOST BACKEND
+--------------------
+[ ] Create Railway/Cloud account
+[ ] Upload backend folder
+[ ] Set environment variables:
+    [ ] NODE_ENV=production
+    [ ] JWT_SECRET (strong random string)
+    [ ] ADMIN_PASSWORD (change from default)
+    [ ] PORT (auto-set by host)
+[ ] Deploy backend
+[ ] Test backend URL works
+[ ] Initialize database
+[ ] Note your backend API URL
+
+
+STEP 5: CONNECT FRONTEND TO BACKEND
+------------------------------------
+[ ] Open api.js file
+[ ] Update API_BASE_URL to your backend URL
+[ ] Push changes to GitHub
+[ ] Test login works
+[ ] Test all API connections
+
+
+STEP 6: GET DOMAIN NAME (OPTIONAL BUT RECOMMENDED)
+---------------------------------------------------
+[ ] Choose domain registrar (Namecheap, Google, etc.)
+[ ] Search for available domain
+[ ] Purchase domain (~$10-15/year)
+[ ] Point domain to your hosting:
+    - GitHub Pages: Add custom domain in Settings
+    - VPS: Update DNS records
+
+
+STEP 7: SET UP SSL (SECURE CONNECTION)
+---------------------------------------
+[ ] GitHub Pages: Automatic (free)
+[ ] Railway: Automatic (free)
+[ ] VPS: Install Let's Encrypt SSL
+[ ] Test HTTPS works (https://yourdomain.com)
+
+
+STEP 8: SECURITY SETUP
+----------------------
+[ ] Change admin password
+[ ] Set strong JWT_SECRET (32+ characters)
+[ ] Review environment variables
+[ ] Enable rate limiting
+[ ] Set up firewall rules (if VPS)
+[ ] Remove demo/test data
+
+
+STEP 9: FINAL TESTING
+---------------------
+[ ] Test all pages load
+[ ] Test login/logout
+[ ] Test admin functions
+[ ] Test merchant portal
+[ ] Test application submission
+[ ] Test file uploads
+[ ] Test on mobile device
+[ ] Test in different browsers
+[ ] Check loading speed
+
+
+STEP 10: GO LIVE!
+-----------------
+[ ] Announce website launch
+[ ] Share with clients/users
+[ ] Monitor for issues
+[ ] Set up error tracking
+[ ] Set up backup schedule
+
+
+QUICK START OPTIONS:
+--------------------
+
+OPTION A - FREE (GitHub + Railway):
+1. Upload frontend to GitHub → Enable Pages
+2. Upload backend to Railway → Deploy
+3. Update api.js with Railway URL
+4. Done! (No domain needed, but looks better with one)
+
+OPTION B - BUDGET ($5/month VPS):
+1. Get VPS from DigitalOcean/Linode
+2. Upload all files via SFTP
+3. Install Node.js and Nginx
+4. Configure Nginx to serve frontend
+5. Run backend with PM2
+6. Get SSL certificate (Let's Encrypt)
+7. Done!
+
+OPTION C - PROFESSIONAL:
+1. Use AWS/Google Cloud/Azure
+2. Follow their deployment guides
+3. Set up auto-scaling
+4. Configure CDN
+5. Set up monitoring
+6. Done!
+
+
+SUPPORT RESOURCES:
+------------------
+- GitHub Pages Docs: https://docs.github.com/en/pages
+- Railway Docs: https://docs.railway.app
+- DigitalOcean Tutorials: https://www.digitalocean.com/community
+- Let's Encrypt: https://letsencrypt.org
+
+
+CURRENT STATUS:
+---------------
+✅ Website complete and saved
+✅ Backend system ready
+✅ All files backed up
+🔄 Ready for deployment!
+

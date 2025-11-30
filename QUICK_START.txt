@@ -1,0 +1,63 @@
+HARRINGTON CAPITAL WEBSITE - QUICK START GUIDE
+=============================================
+
+FRONTEND ONLY (No Backend Needed):
+-----------------------------------
+1. Just open "index.html" in your web browser
+2. Website works with demo data stored in browser
+3. No installation needed!
+
+
+FULL SETUP (With Backend):
+---------------------------
+1. Install Node.js (if not already installed)
+   Download from: https://nodejs.org
+
+2. Open Terminal/Command Prompt and go to backend folder:
+   cd "harrington capital website fully saved\backend"
+
+3. Install dependencies:
+   npm install
+
+4. Set up environment:
+   - Copy .env.example to .env
+   - Edit .env file
+   - Set JWT_SECRET to a random string (at least 32 characters)
+   - Change ADMIN_PASSWORD if desired
+
+5. Initialize database:
+   npm run init-db
+
+6. Start backend server:
+   npm start
+   (Server runs on http://localhost:3000)
+
+7. Open frontend:
+   - Open "index.html" in your browser
+   - Website will connect to backend automatically
+
+
+IMPORTANT FILES:
+----------------
+- index.html = Main website
+- styles.css = All styling
+- *.js files = Website functionality
+- backend/ = Backend server system
+
+
+DEFAULT LOGIN:
+--------------
+Admin:
+  Email: admin@harringtoncapital.com
+  Password: (check backend/.env file, default is admin123)
+
+Demo:
+  Email: demo@harringtoncapital.com
+  Password: demo123
+
+
+NEED HELP?
+----------
+Check README.md for detailed documentation
+Check backend/README.md for backend setup details
+
