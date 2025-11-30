@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Harrington Capital - New York Hedge Fund | RLOC Client Portal">
+<title>Harrington Capital | RLOC Client Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Login Overlay (Hidden by default, shows when login button clicked) -->
+<div id="login-overlay" class="login-overlay" style="display: none;">
+<div class="login-container">
+<button class="login-close-btn" id="close-login-overlay" aria-label="Close login">×</button>
+<div class="login-header">
+<div class="logo-container">
+<div class="logo-monogram">HC</div>
+<div class="logo-text">
+<div class="logo-name">HARRINGTON</div>
+<div class="logo-name">CAPITAL</div>
+</div>
+</div>
+<h2>Portal Login</h2>
+<p class="login-subtitle">Access your RLOC account and manage your financing</p>
+</div>
+
+<div class="login-tabs">
+<button class="login-tab-btn active" data-tab="login">Login</button>
+<button class="login-tab-btn" data-tab="forgot">Forgot Password</button>
+<button class="login-tab-btn" data-tab="apply">Apply for Access</button>
+<button class="login-tab-btn" data-tab="admin" style="display: none;">Admin</button>
+</div>
+
+<!-- Login Tab -->
+<div id="login-tab" class="login-tab-content active">
+<form id="login-form" class="login-form">
+<div class="form-group">
+<label for="login-email">Email Address</label>
+<input type="email" id="login-email" name="email" required autocomplete="email" placeholder="your.email@company.com">
+</div>
+<div class="form-group">
+<label for="login-password">Password</label>
+<input type="password" id="login-password" name="password" required autocomplete="current-password" placeholder="Enter your password">
+</div>
+<div class="form-options">
+<label class="checkbox-label">
+<input type="checkbox" id="remember-me" name="remember">
+<span>Remember me</span>
+</label>
+<button type="button" class="link-button" id="show-forgot-tab">Forgot password?</button>
+</div>
+<div id="login-error" class="error-message" style="display: none;"></div>
+<button type="submit" class="btn-primary btn-login">Sign In</button>
+</form>
+<div class="login-demo-hint">
+<p><strong>Demo Credentials:</strong></p>
+<p>Email: <code>demo@harringtoncapital.com</code></p>
+<p>Password: <code>demo123</code></p>
+</div>
+<div class="login-admin-link">
+<button type="button" class="link-button" id="show-admin-login">Admin Login</button>
+</div>
+</div>
+
+<!-- Forgot Password Tab -->
+<div id="forgot-tab" class="login-tab-content">
+<form id="forgot-password-form" class="login-form">
+<p class="forgot-instructions">Enter your email address and we'll send you instructions to reset your password.</p>
+<div class="form-group">
+<label for="forgot-email">Email Address</label>
+<input type="email" id="forgot-email" name="email" required autocomplete="email" placeholder="your.email@company.com">
+</div>
+<div id="forgot-success" class="success-message" style="display: none;">
+<p>Password reset instructions have been sent to your email address.</p>
+</div>
+<div id="forgot-error" class="error-message" style="display: none;"></div>
+<button type="submit" class="btn-primary">Send Reset Instructions</button>
+<button type="button" class="btn-secondary" id="back-to-login-from-forgot">Back to Login</button>
+</form>
+</div>
+
+<!-- Apply for Access Tab -->
+<div id="apply-tab" class="login-tab-content">
+<div class="apply-access-content">
+<h3>Apply for Portal Access</h3>
+<p>If you're an existing Harrington Capital client and need portal access, please complete the form below. Our team will review your request and provide login credentials within 2-3 business days.</p>
+<form id="access-request-form" class="login-form">
+<div class="form-group">
+<label for="access-company-name">Company Name *</label>
+<input type="text" id="access-company-name" name="companyName" required placeholder="Your company name">
+</div>
+<div class="form-group">
+<label for="access-contact-name">Contact Name *</label>
+<input type="text" id="access-contact-name" name="contactName" required placeholder="Your full name">
+</div>
+<div class="form-group">
+<label for="access-email">Email Address *</label>
+<input type="email" id="access-email" name="email" required autocomplete="email" placeholder="your.email@company.com">
+</div>
+<div class="form-group">
+<label for="access-phone">Phone Number *</label>
+<input type="tel" id="access-phone" name="phone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="XXX-XXX-XXXX">
+</div>
+<div class="form-group">
+<label for="access-account-number">Account Number (if applicable)</label>
+<input type="text" id="access-account-number" name="accountNumber" placeholder="Your Harrington Capital account number">
+</div>
+<div class="form-group">
+<label for="access-reason">Reason for Access Request *</label>
+<textarea id="access-reason" name="reason" rows="4" required placeholder="Please explain why you need portal access..."></textarea>
+</div>
+<div id="access-success" class="success-message" style="display: none;">
+<h4>Request Submitted Successfully</h4>
+<p>Your access request has been received. Our team will review it and contact you within 2-3 business days with your login credentials.</p>
+<p><strong>Request ID:</strong> <span id="access-request-id"></span></p>
+</div>
+<div id="access-error" class="error-message" style="display: none;"></div>
+<button type="submit" class="btn-primary">Submit Request</button>
+<button type="button" class="btn-secondary" id="back-to-login-from-apply">Back to Login</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Admin Portal Section -->
+<section id="admin-portal" class="client-portal" style="display: none;">
+<div class="container">
+<div class="portal-header">
+<h2>Admin Portal - Merchant Management</h2>
+<div class="user-info">
+<span id="admin-email-display"></span>
+<button class="btn-secondary btn-small" id="admin-logout-btn">Logout</button>
+</div>
+</div>
+
+<div class="admin-content">
+<div class="admin-tabs">
+<button class="tab-btn active" data-tab="merchants">Merchants</button>
+<button class="tab-btn" data-tab="applications">Applications</button>
+</div>
+
+<!-- Merchants Tab -->
+<div id="merchants-tab" class="tab-content active">
+<div class="admin-section-header">
+<h3>Merchant Management</h3>
+<button class="btn-primary" id="add-merchant-btn">Add New Merchant</button>
+</div>
+
+<div class="merchants-list" id="merchants-list">
+<!-- Merchants will be populated here -->
+</div>
+
+<!-- Add Merchant Modal -->
+<div id="add-merchant-modal" class="modal-overlay" style="display: none;">
+<div class="modal-container">
+<div class="modal-header">
+<h3>Add New Merchant</h3>
+<button class="modal-close" id="close-merchant-modal">×</button>
+</div>
+<form id="add-merchant-form" class="modal-form">
+<div class="form-group">
+<label for="merchant-email">Merchant Email *</label>
+<input type="email" id="merchant-email" name="email" required placeholder="merchant@company.com">
+</div>
+<div class="form-group">
+<label for="merchant-company">Company Name *</label>
+<input type="text" id="merchant-company" name="company" required placeholder="Company Name">
+</div>
+<div class="form-group">
+<label for="merchant-name">Contact Name *</label>
+<input type="text" id="merchant-name" name="name" required placeholder="Contact Name">
+</div>
+<div class="form-group">
+<label for="merchant-approved-amount">Approved Credit Amount *</label>
+<input type="number" id="merchant-approved-amount" name="approvedAmount" min="10000" step="1000" required placeholder="500000">
+<div class="form-hint">Minimum $10,000</div>
+</div>
+<div class="form-group">
+<label for="merchant-password">Initial Password *</label>
+<input type="password" id="merchant-password" name="password" required placeholder="Set initial password">
+<div class="form-hint">Merchant will be prompted to change on first login</div>
+</div>
+<div class="form-group">
+<label for="merchant-status">Status</label>
+<select id="merchant-status" name="status" required>
+<option value="active">Active</option>
+<option value="pending">Pending</option>
+<option value="suspended">Suspended</option>
+</select>
+</div>
+<div id="merchant-form-error" class="error-message" style="display: none;"></div>
+<div class="modal-actions">
+<button type="button" class="btn-secondary" id="cancel-merchant-btn">Cancel</button>
+<button type="submit" class="btn-primary">Create Merchant</button>
+</div>
+</form>
+</div>
+</div>
+
+<!-- Edit Merchant Modal -->
+<div id="edit-merchant-modal" class="modal-overlay" style="display: none;">
+<div class="modal-container">
+<div class="modal-header">
+<h3>Edit Merchant</h3>
+<button class="modal-close" id="close-edit-merchant-modal">×</button>
+</div>
+<form id="edit-merchant-form" class="modal-form">
+<input type="hidden" id="edit-merchant-id">
+<div class="form-group">
+<label for="edit-merchant-email">Merchant Email *</label>
+<input type="email" id="edit-merchant-email" name="email" required>
+</div>
+<div class="form-group">
+<label for="edit-merchant-company">Company Name *</label>
+<input type="text" id="edit-merchant-company" name="company" required>
+</div>
+<div class="form-group">
+<label for="edit-merchant-name">Contact Name *</label>
+<input type="text" id="edit-merchant-name" name="name" required>
+</div>
+<div class="form-group">
+<label for="edit-merchant-approved-amount">Approved Credit Amount *</label>
+<input type="number" id="edit-merchant-approved-amount" name="approvedAmount" min="10000" step="1000" required>
+</div>
+<div class="form-group">
+<label for="edit-merchant-status">Status</label>
+<select id="edit-merchant-status" name="status" required>
+<option value="active">Active</option>
+<option value="pending">Pending</option>
+<option value="suspended">Suspended</option>
+</select>
+</div>
+<div id="edit-merchant-form-error" class="error-message" style="display: none;"></div>
+<div class="modal-actions">
+<button type="button" class="btn-secondary" id="cancel-edit-merchant-btn">Cancel</button>
+<button type="submit" class="btn-primary">Update Merchant</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Applications Tab -->
+<div id="applications-tab" class="tab-content">
+<div class="admin-section-header">
+<h3>Pending Applications</h3>
+</div>
+<div class="applications-list" id="applications-list">
+<!-- Applications will be populated here -->
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<header id="main-header">
+<div class="header-logo">
+<div class="logo-monogram-small">HC</div>
+<div class="logo-text-small">
+<div>HARRINGTON</div>
+<div>CAPITAL</div>
+</div>
+</div>
+<nav>
+<a href="#about">About</a>
+<a href="#services">Services</a>
+<a href="#apply">Apply</a>
+<a href="#portal" id="portal-link">Client Portal</a>
+<a href="#contact">Contact</a>
+</nav>
+<div class="header-auth">
+<button class="btn-login-header" id="login-header-btn">Portal Login</button>
+<button class="btn-logout" id="logout-btn" style="display: none;">Logout</button>
+</div>
+</header>
+
+<section class="hero">
+<div class="hero-content-wrapper">
+<div class="hero-logo-container">
+<div class="logo-monogram hero-monogram">HC</div>
+<div class="logo-text hero-logo-text">
+<div class="logo-name">HARRINGTON</div>
+<div class="logo-name">CAPITAL</div>
+</div>
+</div>
+<div class="hero-text">
+<h1>Institutional-Grade Capital Solutions for Growing Businesses</h1>
+<p class="hero-subtitle">Harrington Capital provides direct access to flexible credit facilities, revolving lines of credit, and structured capital solutions. Built for businesses seeking transparent, sustainable financing without intermediary fees or traditional banking constraints.</p>
+<div class="hero-highlights">
+<div class="hero-highlight-item">
+<div class="highlight-title"><strong>Revenue-Based</strong> Underwriting</div>
+<p class="highlight-sub">Approval based on your business performance, not just credit scores</p>
+</div>
+<div class="hero-highlight-item">
+<div class="highlight-title"><strong>Institutional</strong> Standards</div>
+<p class="highlight-sub">Professional service with transparency and dedicated account management</p>
+</div>
+<div class="hero-highlight-item">
+<div class="highlight-title"><strong>24-48 Hour</strong> Funding</div>
+<p class="highlight-sub">Rapid deployment after approval with streamlined documentation</p>
+</div>
+</div>
+<div class="buttons">
+<a href="#apply" class="btn-hero-primary">Apply for Financing</a>
+<a href="#portal" id="client-login-link" class="btn-hero-secondary">Portal Login</a>
+</div>
+</div>
+</div>
+</section>
+
+<section id="about" class="about">
+<div class="container">
+<h2 class="section-title">About Harrington Capital</h2>
+<div class="about-content">
+<div class="about-text">
+<p class="lead-text">Harrington Capital is a New York-based alternative credit fund specializing in direct-to-business lending solutions. We provide institutional-grade capital access to growing companies through revolving credit lines, term loans, and structured financing products—all without broker intermediaries or traditional banking bureaucracy.</p>
+<p>Founded on principles of transparency and alignment, Harrington Capital operates as a direct lender, meaning businesses work directly with our underwriting team and receive custom-structured terms designed around their specific cash flow patterns. Unlike broker-originated financing that prioritizes commission-based products, we present all viable options upfront and structure agreements that serve your long-term interests.</p>
+<p>Our underwriting process evaluates revenue performance and business fundamentals rather than relying solely on personal credit scores. We specialize in revenue-based lending for established businesses seeking flexible working capital, equipment financing, expansion capital, or debt consolidation through our loan buyout program.</p>
+<p>Every financing structure is customized before commitment—we analyze your cash flow, identify optimal repayment schedules, and present detailed terms for review. This ensures the capital solution actually works for your business model rather than creating payment strain.</p>
+</div>
+<div class="about-stats">
+<div class="stat-box">
+<div class="stat-number">$500M+</div>
+<div class="stat-label">Capital Deployed</div>
+<div class="stat-description">Successfully funded businesses across multiple industries</div>
+</div>
+<div class="stat-box">
+<div class="stat-number">24-48hr</div>
+<div class="stat-label">Average Funding Time</div>
+<div class="stat-description">From approval to fund disbursement</div>
+</div>
+<div class="stat-box">
+<div class="stat-number">100%</div>
+<div class="stat-label">Direct Lender</div>
+<div class="stat-description">No broker fees, no intermediaries</div>
+</div>
+<div class="stat-box">
+<div class="stat-number">Revenue-Based</div>
+<div class="stat-label">Underwriting Focus</div>
+<div class="stat-description">Approval based on business performance</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="services" class="services">
+<div class="container">
+<h2 class="section-title">Our Financing Solutions</h2>
+<p class="section-text">Harrington Capital offers a comprehensive suite of direct lending products designed for established businesses with consistent revenue. Each solution is structured to align with your cash flow patterns and business objectives.</p>
+<div class="services-cards">
+<div class="card service-card">
+<div class="service-icon">
+<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 7V5C3 3.89543 3.89543 3 5 3H19C20.1046 3 21 3.89543 21 5V7M3 7V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V7M3 7H21M7 11H17" stroke="#0A2740" stroke-width="2" stroke-linecap="round"/>
+</svg>
+</div>
+<h3>Revolving Line of Credit (RLOC)</h3>
+<p class="service-description">Our primary product offering—a flexible credit facility that functions like a business credit card with institutional terms. Access capital on-demand, pay interest only on amounts drawn, and maintain a revolving credit line that replenishes as you repay.</p>
+<ul class="service-features">
+<li>Revenue-based approval—no personal guarantee required for qualifying businesses</li>
+<li>Competitive interest rates determined through comprehensive underwriting analysis</li>
+<li>Flexible draw schedule—access funds as needed, when needed</li>
+<li>Minimum monthly payment of 2% of outstanding balance (or optional daily/weekly payments)</li>
+<li>Zero prepayment penalties—pay down principal anytime without fees</li>
+<li>Unrestricted use of funds for working capital, expansion, equipment, or refinancing</li>
+<li>Rapid funding within 24-48 hours post-approval with streamlined documentation</li>
+</ul>
+<div class="service-highlight">
+<strong>Ideal For:</strong> Businesses with consistent monthly revenue seeking flexible working capital access. Perfect for managing cash flow gaps, seasonal inventory needs, or opportunistic expansion without the constraints of traditional term loans.
+</div>
+</div>
+<div class="card service-card">
+<div class="service-icon">
+<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0A2740" stroke-width="2" stroke-linejoin="round"/>
+<path d="M2 17L12 22L22 17" stroke="#0A2740" stroke-width="2" stroke-linejoin="round"/>
+<path d="M2 12L12 17L22 12" stroke="#0A2740" stroke-width="2" stroke-linejoin="round"/>
+</svg>
+</div>
+<h3>Loan Buyout & Debt Consolidation</h3>
+<p class="service-description">Consolidate multiple high-cost merchant cash advances, factor agreements, or short-term loans into a single, affordable payment structure. Our buyout program eliminates ongoing broker contact, reduces total monthly obligations, and provides clear, transparent terms going forward.</p>
+<ul class="service-features">
+<li>Complete buyout of existing high-cost financing obligations</li>
+<li>Consolidation into single monthly payment with improved cash flow impact</li>
+<li>No debt consolidation fees or origination charges</li>
+<li>Elimination of broker interference and unwanted refinancing solicitations</li>
+<li>Potential early payoff incentives for businesses in strong financial position</li>
+<li>Transparent amortization schedule with no hidden fees or balloon payments</li>
+</ul>
+<div class="service-highlight">
+<strong>Ideal For:</strong> Businesses currently managing multiple financing products with high monthly payments. Particularly beneficial for companies experiencing cash flow pressure from merchant cash advances or factor agreements seeking consolidation and payment relief.
+</div>
+</div>
+<div class="card service-card">
+<div class="service-icon">
+<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 3V21H21" stroke="#0A2740" stroke-width="2" stroke-linecap="round"/>
+<path d="M7 16L12 11L16 15L21 10" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21 10V3H14" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<h3>Structured Capital & Term Financing</h3>
+<p class="service-description">Custom-structured financing solutions for businesses with specific capital deployment needs. We offer term loans, equipment financing, credit card processing programs, and working capital facilities structured around your business's unique requirements and repayment capacity.</p>
+<ul class="service-features">
+<li>Fixed-term loan products with customized amortization schedules</li>
+<li>Equipment and asset-based financing for capital expenditures</li>
+<li>Credit card processing programs with competitive interchange rates</li>
+<li>Working capital term loans for specific projects or initiatives</li>
+<li>Dedicated account manager for ongoing relationship management</li>
+<li>Custom payment structures aligned to seasonal revenue patterns</li>
+<li>Flexible terms from 12 to 60 months based on use case</li>
+</ul>
+<div class="service-highlight">
+<strong>Ideal For:</strong> Businesses with specific financing needs requiring fixed-term structures—equipment purchases, facility expansion, technology upgrades, or project-based capital requirements where revolving credit may not be optimal.
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="how-it-works">
+<div class="container">
+<h2 class="section-title">How Our Financing Process Works</h2>
+<p class="section-text">Harrington Capital's streamlined application and approval process is designed for efficiency while maintaining thorough underwriting standards. Our revenue-based approach evaluates your business fundamentals rather than relying solely on personal credit metrics.</p>
+<div class="how-it-works-grid">
+<div class="how-item">
+<div class="how-number">1</div>
+<h3>Application & Documentation</h3>
+<p>Submit your business information through our secure online application. Our underwriting team requires standard business documentation: bank statements, tax returns, financial statements, and business verification. Initial review typically completes within 24 hours of receiving complete documentation.</p>
+</div>
+<div class="how-item">
+<div class="how-number">2</div>
+<h3>Underwriting & Approval</h3>
+<p>Our analysis focuses on revenue consistency, monthly deposits, business tenure, and industry performance. Approval decisions are based on business fundamentals—typically $50,000+ in monthly revenue with 12+ months operating history. Credit lines are sized based on average monthly revenue and business stability factors.</p>
+</div>
+<div class="how-item">
+<div class="how-number">3</div>
+<h3>Offer Review & Terms</h3>
+<p>Receive a detailed funding proposal with transparent terms: credit limit, interest rate, repayment structure, and fees. No obligation to accept. Our team reviews terms with you to ensure alignment with your cash flow patterns before you commit. Custom repayment schedules available upon request.</p>
+</div>
+<div class="how-item">
+<div class="how-number">4</div>
+<h3>Funding & Account Access</h3>
+<p>After accepting terms and completing final documentation, funds are typically disbursed within 24-48 hours via ACH transfer to your business account. Access your client portal for real-time balance monitoring, draw requests, payment scheduling, and document management. Future draws processed same-day through your dedicated account manager.</p>
+</div>
+</div>
+<div class="benefits-section">
+<h3 class="benefits-title">Key Benefits</h3>
+<div class="benefits-grid">
+<div class="benefit-item">
+<div class="benefit-icon">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<h4>Rapid Deployment</h4>
+<p>Approved applications receive funding within 24-48 hours after documentation completion. No waiting weeks for traditional bank approval processes.</p>
+</div>
+<div class="benefit-item">
+<div class="benefit-icon">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" stroke="#0A2740" stroke-width="2" stroke-linejoin="round"/>
+<path d="M12 22V12" stroke="#0A2740" stroke-width="2" stroke-linecap="round"/>
+<path d="M4 5L12 12L20 5" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<h4>Revenue-Based Qualification</h4>
+<p>Qualification determined by business revenue performance and cash flow, not personal credit scores or asset collateral requirements</p>
+</div>
+<div class="benefit-item">
+<div class="benefit-icon">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="12" r="10" stroke="#0A2740" stroke-width="2"/>
+<path d="M12 6V12L16 14" stroke="#0A2740" stroke-width="2" stroke-linecap="round"/>
+</svg>
+</div>
+<h4>Flexible Paydown Terms</h4>
+<p>No prepayment penalties or early payoff fees. Reduce interest costs by paying down principal anytime without restrictions</p>
+</div>
+<div class="benefit-item">
+<div class="benefit-icon">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14 2V8H20" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 13H8" stroke="#0A2740" stroke-width="2" stroke-linecap="round"/>
+<path d="M16 17H8" stroke="#0A2740" stroke-width="2" stroke-linecap="round"/>
+<path d="M10 9H9H8" stroke="#0A2740" stroke-width="2" stroke-linecap="round"/>
+</svg>
+</div>
+<h4>Full Transparency</h4>
+<p>Complete disclosure of all rates, fees, and repayment terms provided upfront. No hidden costs or surprise charges throughout the relationship</p>
+</div>
+<div class="benefit-item">
+<div class="benefit-icon">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="12" r="10" stroke="#0A2740" stroke-width="2"/>
+<circle cx="12" cy="12" r="6" stroke="#0A2740" stroke-width="2"/>
+<circle cx="12" cy="12" r="2" fill="#0A2740"/>
+</svg>
+</div>
+<h4>Unrestricted Capital Use</h4>
+<p>No restrictions on fund usage—deploy capital for working capital gaps, payroll, equipment purchases, expansion, inventory, or existing debt consolidation</p>
+</div>
+<div class="benefit-item">
+<div class="benefit-icon">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="#0A2740" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</div>
+<h4>Direct Access</h4>
+<p>No broker fees, dedicated account manager</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="apply" class="application-form">
+<div class="container">
+<h2 class="section-title">Apply for Financing</h2>
+<p class="section-text">Complete the application form below to apply for RLOC financing. All fields marked with * are required.</p>
+<div class="application-info-box">
+<h4>What We Need to Finalize Your Approval</h4>
+<p>To move forward and secure your formal funding offer, please provide the following:</p>
+<ul>
+<li><strong>Previous Month's Bank Statements:</strong> To validate cash flow</li>
+<li><strong>Most Recent Month-to-Date Financials:</strong> Helps us confirm up-to-date performance</li>
+<li><strong>Valid Driver's License:</strong> Required for identity verification and compliance</li>
+<li><strong>Voided Business Check:</strong> Ensures smooth, accurate fund transfers</li>
+</ul>
+<p class="info-note">These documents allow our underwriting team to finalize your approval and present your personalized funding terms.</p>
+</div>
+<div class="application-container">
+<!-- Progress Indicator -->
+<div class="progress-indicator">
+<div class="progress-step active" data-step="1">
+<div class="step-number">1</div>
+<div class="step-label">Business Info</div>
+</div>
+<div class="progress-line"></div>
+<div class="progress-step" data-step="2">
+<div class="step-number">2</div>
+<div class="step-label">Financial Info</div>
+</div>
+<div class="progress-line"></div>
+<div class="progress-step" data-step="3">
+<div class="step-number">3</div>
+<div class="step-label">Owner Info</div>
+</div>
+<div class="progress-line"></div>
+<div class="progress-step" data-step="4">
+<div class="step-number">4</div>
+<div class="step-label">Banking Info</div>
+</div>
+</div>
+
+<!-- Application Form -->
+<form id="standalone-application-form" class="application-form">
+<!-- Step 1: Business Info -->
+<div class="form-step active" data-step="1">
+<h3>Business Information</h3>
+<div class="form-group">
+<label for="standalone-business-name">Legal Business Name *</label>
+<input type="text" id="standalone-business-name" name="businessName" required>
+</div>
+<div class="form-group">
+<label for="standalone-business-type">Business Type *</label>
+<select id="standalone-business-type" name="businessType" required>
+<option value="">Select type</option>
+<option value="llc">LLC</option>
+<option value="corporation">Corporation</option>
+<option value="partnership">Partnership</option>
+<option value="sole-proprietorship">Sole Proprietorship</option>
+</select>
+</div>
+<div class="form-group">
+<label for="standalone-ein">EIN (Employer Identification Number) *</label>
+<input type="text" id="standalone-ein" name="ein" pattern="[0-9]{2}-[0-9]{7}" placeholder="XX-XXXXXXX" required>
+</div>
+<div class="form-group">
+<label for="standalone-business-address">Business Address *</label>
+<input type="text" id="standalone-business-address" name="businessAddress" required>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label for="standalone-business-city">City *</label>
+<input type="text" id="standalone-business-city" name="businessCity" required>
+</div>
+<div class="form-group">
+<label for="standalone-business-state">State *</label>
+<input type="text" id="standalone-business-state" name="businessState" maxlength="2" placeholder="NY" required>
+</div>
+<div class="form-group">
+<label for="standalone-business-zip">ZIP Code *</label>
+<input type="text" id="standalone-business-zip" name="businessZip" pattern="[0-9]{5}" required>
+</div>
+</div>
+<div class="form-group">
+<label for="standalone-years-in-business">Years in Business *</label>
+<input type="number" id="standalone-years-in-business" name="yearsInBusiness" min="0" required>
+</div>
+<div class="form-group">
+<label for="standalone-industry">Industry *</label>
+<select id="standalone-industry" name="industry" required>
+<option value="">Select industry</option>
+<option value="technology">Technology</option>
+<option value="finance">Finance</option>
+<option value="healthcare">Healthcare</option>
+<option value="retail">Retail</option>
+<option value="manufacturing">Manufacturing</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="form-actions">
+<button type="button" class="btn-primary btn-next" data-next="2">Next</button>
+</div>
+</div>
+
+<!-- Step 2: Financial Info -->
+<div class="form-step" data-step="2">
+<h3>Financial Information</h3>
+<div class="form-group">
+<label for="standalone-annual-revenue">Annual Revenue *</label>
+<input type="number" id="standalone-annual-revenue" name="annualRevenue" min="0" step="1000" required>
+</div>
+<div class="form-group">
+<label for="standalone-monthly-revenue">Average Monthly Revenue *</label>
+<input type="number" id="standalone-monthly-revenue" name="monthlyRevenue" min="0" step="1000" required>
+</div>
+<div class="form-group">
+<label for="standalone-credit-request">Requested Credit Amount *</label>
+<input type="number" id="standalone-credit-request" name="creditRequest" min="10000" max="1000000" step="10000" required>
+</div>
+<div class="form-group">
+<label for="standalone-use-of-funds">Intended Use of Funds *</label>
+<textarea id="standalone-use-of-funds" name="useOfFunds" rows="4" required></textarea>
+</div>
+<div class="form-group">
+<label for="standalone-financial-docs">Financial Documents *</label>
+<p class="upload-hint">Upload: Tax returns, financial statements, bank statements (PDF, DOC, DOCX, JPG, PNG)</p>
+<input type="file" id="standalone-financial-docs" name="financialDocs" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
+<div class="file-list" id="standalone-financial-docs-list"></div>
+</div>
+<div class="form-actions">
+<button type="button" class="btn-secondary btn-prev" data-prev="1">Previous</button>
+<button type="button" class="btn-primary btn-next" data-next="3">Next</button>
+</div>
+</div>
+
+<!-- Step 3: Owner Info -->
+<div class="form-step" data-step="3">
+<h3>Owner Information</h3>
+<div class="form-group">
+<label for="standalone-owner-name">Full Legal Name *</label>
+<input type="text" id="standalone-owner-name" name="ownerName" required>
+</div>
+<div class="form-group">
+<label for="standalone-owner-title">Title *</label>
+<input type="text" id="standalone-owner-title" name="ownerTitle" required>
+</div>
+<div class="form-group">
+<label for="standalone-owner-email">Email Address *</label>
+<input type="email" id="standalone-owner-email" name="ownerEmail" required>
+</div>
+<div class="form-group">
+<label for="standalone-owner-phone">Phone Number *</label>
+<input type="tel" id="standalone-owner-phone" name="ownerPhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="XXX-XXX-XXXX" required>
+</div>
+<div class="form-group">
+<label for="standalone-owner-ssn">SSN (Last 4 digits) *</label>
+<input type="text" id="standalone-owner-ssn" name="ownerSsn" pattern="[0-9]{4}" maxlength="4" placeholder="XXXX" required>
+</div>
+<div class="form-group">
+<label for="standalone-owner-address">Home Address *</label>
+<input type="text" id="standalone-owner-address" name="ownerAddress" required>
+</div>
+<div class="form-group">
+<label for="standalone-government-id">Government ID *</label>
+<p class="upload-hint">Upload: Driver's License or Passport (JPG, PNG, PDF)</p>
+<input type="file" id="standalone-government-id" name="governmentId" accept=".pdf,.jpg,.png" required>
+<div class="file-list" id="standalone-government-id-list"></div>
+</div>
+<div class="form-actions">
+<button type="button" class="btn-secondary btn-prev" data-prev="2">Previous</button>
+<button type="button" class="btn-primary btn-next" data-next="4">Next</button>
+</div>
+</div>
+
+<!-- Step 4: Banking Info -->
+<div class="form-step" data-step="4">
+<h3>Banking Information</h3>
+<div class="form-group">
+<label for="standalone-bank-name">Bank Name *</label>
+<input type="text" id="standalone-bank-name" name="bankName" required>
+</div>
+<div class="form-group">
+<label for="standalone-account-type">Account Type *</label>
+<select id="standalone-account-type" name="accountType" required>
+<option value="">Select type</option>
+<option value="checking">Checking</option>
+<option value="savings">Savings</option>
+</select>
+</div>
+<div class="form-group">
+<label for="standalone-account-number">Account Number *</label>
+<input type="text" id="standalone-account-number" name="accountNumber" required>
+</div>
+<div class="form-group">
+<label for="standalone-routing-number">Routing Number *</label>
+<input type="text" id="standalone-routing-number" name="routingNumber" pattern="[0-9]{9}" maxlength="9" required>
+</div>
+<div class="form-group">
+<label for="standalone-voided-check">Voided Check *</label>
+<p class="upload-hint">Upload: Voided check or bank statement (PDF, JPG, PNG)</p>
+<input type="file" id="standalone-voided-check" name="voidedCheck" accept=".pdf,.jpg,.png" required>
+<div class="file-list" id="standalone-voided-check-list"></div>
+</div>
+<div class="form-actions">
+<button type="button" class="btn-secondary btn-prev" data-prev="3">Previous</button>
+<button type="submit" class="btn-primary">Submit Application</button>
+</div>
+</div>
+</form>
+
+<!-- Success Message -->
+<div id="standalone-application-success" class="success-message" style="display: none;">
+<h3>Application Submitted Successfully</h3>
+<p>Your RLOC application has been received. Our team will review it and contact you within 2-3 business days.</p>
+<p><strong>Application ID:</strong> <span id="standalone-application-id"></span></p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="portal" class="client-portal">
+<div class="container">
+<div class="portal-header">
+<h2>RLOC Client Portal</h2>
+<div class="user-info" id="portal-user-info" style="display: none;">
+<span id="user-email-display"></span>
+<button class="btn-secondary btn-small" id="header-logout-btn">Logout</button>
+</div>
+</div>
+
+<!-- Portal Login Prompt (shown when not logged in) -->
+<div id="portal-login-prompt" class="portal-login-prompt">
+<div class="portal-prompt-content">
+<h3>Access Your Client Portal</h3>
+<p>Please log in to view your RLOC balance, request funds, download statements, and manage your account.</p>
+<button class="btn-primary" id="prompt-login-btn">Login to Portal</button>
+</div>
+</div>
+
+<!-- Portal Content (shown when logged in) -->
+<div id="portal-content" style="display: none;">
+
+<!-- Portal Tabs -->
+<div class="portal-tabs">
+<button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+<button class="tab-btn" data-tab="application">New Application</button>
+<button class="tab-btn" data-tab="messages">Messages</button>
+</div>
+
+<!-- Dashboard Tab -->
+<div id="dashboard-tab" class="tab-content active">
+<div class="dashboard-grid">
+<!-- Account Summary -->
+<div class="dashboard-card summary-card">
+<h3>Account Summary</h3>
+<div class="summary-stats">
+<div class="stat-item">
+<span class="stat-label">RLOC Balance</span>
+<span class="stat-value" id="rloc-balance">$0.00</span>
+</div>
+<div class="stat-item">
+<span class="stat-label">Available Credit</span>
+<span class="stat-value credit-available" id="available-credit">Calculated upon approval</span>
+</div>
+<div class="stat-item">
+<span class="stat-label">Credit Limit</span>
+<span class="stat-value" id="credit-limit">Based on your revenue</span>
+</div>
+<div class="stat-item">
+<span class="stat-label">Next Payment Due</span>
+<span class="stat-value" id="next-payment">$0.00</span>
+</div>
+<div class="stat-item">
+<span class="stat-label">Payment Date</span>
+<span class="stat-value" id="payment-date">N/A</span>
+</div>
+</div>
+</div>
+
+<!-- Payment Schedule -->
+<div class="dashboard-card">
+<h3>Payment Schedule</h3>
+<div class="schedule-container">
+<table class="schedule-table">
+<thead>
+<tr>
+<th>Date</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="payment-schedule-body">
+</tbody>
+</table>
+</div>
+</div>
+
+<!-- Fund Request -->
+<div class="dashboard-card">
+<h3>Request Funds</h3>
+<form id="fund-request-form" class="fund-form">
+<div class="form-group">
+<label for="request-amount">Amount</label>
+<input type="number" id="request-amount" name="amount" min="1000" step="1000" required>
+<span class="form-hint">Minimum: $1,000 | Maximum: Available Credit</span>
+</div>
+<div class="form-group">
+<label for="request-purpose">Purpose</label>
+<select id="request-purpose" name="purpose" required>
+<option value="">Select purpose</option>
+<option value="working-capital">Working Capital</option>
+<option value="expansion">Business Expansion</option>
+<option value="equipment">Equipment Purchase</option>
+<option value="other">Other</option>
+</select>
+</div>
+<button type="submit" class="btn-primary">Submit Request</button>
+</form>
+</div>
+
+<!-- Quick Actions -->
+<div class="dashboard-card">
+<h3>Quick Actions</h3>
+<div class="action-buttons">
+<button class="btn-secondary" id="download-statement-btn">Download Statement</button>
+<button class="btn-secondary" id="upload-doc-btn">Upload Document</button>
+<button class="btn-secondary" id="view-documents-btn">View Documents</button>
+</div>
+</div>
+
+<!-- Documents -->
+<div class="dashboard-card documents-card">
+<h3>Documents</h3>
+<div class="documents-list" id="documents-list">
+</div>
+<input type="file" id="document-upload" multiple accept=".pdf,.doc,.docx,.jpg,.png" style="display: none;">
+</div>
+</div>
+</div>
+
+<!-- Application Tab -->
+<div id="application-tab" class="tab-content">
+<div class="application-container">
+<!-- Progress Indicator -->
+<div class="progress-indicator">
+<div class="progress-step active" data-step="1">
+<div class="step-number">1</div>
+<div class="step-label">Business Info</div>
+</div>
+<div class="progress-line"></div>
+<div class="progress-step" data-step="2">
+<div class="step-number">2</div>
+<div class="step-label">Financial Info</div>
+</div>
+<div class="progress-line"></div>
+<div class="progress-step" data-step="3">
+<div class="step-number">3</div>
+<div class="step-label">Owner Info</div>
+</div>
+<div class="progress-line"></div>
+<div class="progress-step" data-step="4">
+<div class="step-number">4</div>
+<div class="step-label">Banking Info</div>
+</div>
+</div>
+
+<!-- Application Form -->
+<form id="application-form" class="application-form">
+<!-- Step 1: Business Info -->
+<div class="form-step active" data-step="1">
+<h3>Business Information</h3>
+<div class="form-group">
+<label for="business-name">Legal Business Name *</label>
+<input type="text" id="business-name" name="businessName" required>
+</div>
+<div class="form-group">
+<label for="business-type">Business Type *</label>
+<select id="business-type" name="businessType" required>
+<option value="">Select type</option>
+<option value="llc">LLC</option>
+<option value="corporation">Corporation</option>
+<option value="partnership">Partnership</option>
+<option value="sole-proprietorship">Sole Proprietorship</option>
+</select>
+</div>
+<div class="form-group">
+<label for="ein">EIN (Employer Identification Number) *</label>
+<input type="text" id="ein" name="ein" pattern="[0-9]{2}-[0-9]{7}" placeholder="XX-XXXXXXX" required>
+</div>
+<div class="form-group">
+<label for="business-address">Business Address *</label>
+<input type="text" id="business-address" name="businessAddress" required>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label for="business-city">City *</label>
+<input type="text" id="business-city" name="businessCity" required>
+</div>
+<div class="form-group">
+<label for="business-state">State *</label>
+<input type="text" id="business-state" name="businessState" maxlength="2" placeholder="NY" required>
+</div>
+<div class="form-group">
+<label for="business-zip">ZIP Code *</label>
+<input type="text" id="business-zip" name="businessZip" pattern="[0-9]{5}" required>
+</div>
+</div>
+<div class="form-group">
+<label for="years-in-business">Years in Business *</label>
+<input type="number" id="years-in-business" name="yearsInBusiness" min="0" required>
+</div>
+<div class="form-group">
+<label for="industry">Industry *</label>
+<select id="industry" name="industry" required>
+<option value="">Select industry</option>
+<option value="technology">Technology</option>
+<option value="finance">Finance</option>
+<option value="healthcare">Healthcare</option>
+<option value="retail">Retail</option>
+<option value="manufacturing">Manufacturing</option>
+<option value="other">Other</option>
+</select>
+</div>
+<div class="form-actions">
+<button type="button" class="btn-primary btn-next" data-next="2">Next</button>
+</div>
+</div>
+
+<!-- Step 2: Financial Info -->
+<div class="form-step" data-step="2">
+<h3>Financial Information</h3>
+<div class="form-group">
+<label for="annual-revenue">Annual Revenue *</label>
+<input type="number" id="annual-revenue" name="annualRevenue" min="0" step="1000" required>
+</div>
+<div class="form-group">
+<label for="monthly-revenue">Average Monthly Revenue *</label>
+<input type="number" id="monthly-revenue" name="monthlyRevenue" min="0" step="1000" required>
+</div>
+<div class="form-group">
+<label for="credit-request">Requested Credit Amount *</label>
+<input type="number" id="credit-request" name="creditRequest" min="10000" max="1000000" step="10000" required>
+</div>
+<div class="form-group">
+<label for="use-of-funds">Intended Use of Funds *</label>
+<textarea id="use-of-funds" name="useOfFunds" rows="4" required></textarea>
+</div>
+<div class="form-group">
+<label for="financial-docs">Financial Documents *</label>
+<p class="upload-hint">Upload: Tax returns, financial statements, bank statements (PDF, DOC, DOCX, JPG, PNG)</p>
+<input type="file" id="financial-docs" name="financialDocs" multiple accept=".pdf,.doc,.docx,.jpg,.png" required>
+<div class="file-list" id="financial-docs-list"></div>
+</div>
+<div class="form-actions">
+<button type="button" class="btn-secondary btn-prev" data-prev="1">Previous</button>
+<button type="button" class="btn-primary btn-next" data-next="3">Next</button>
+</div>
+</div>
+
+<!-- Step 3: Owner Info -->
+<div class="form-step" data-step="3">
+<h3>Owner Information</h3>
+<div class="form-group">
+<label for="owner-name">Full Legal Name *</label>
+<input type="text" id="owner-name" name="ownerName" required>
+</div>
+<div class="form-group">
+<label for="owner-title">Title *</label>
+<input type="text" id="owner-title" name="ownerTitle" required>
+</div>
+<div class="form-group">
+<label for="owner-email">Email Address *</label>
+<input type="email" id="owner-email" name="ownerEmail" required>
+</div>
+<div class="form-group">
+<label for="owner-phone">Phone Number *</label>
+<input type="tel" id="owner-phone" name="ownerPhone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="XXX-XXX-XXXX" required>
+</div>
+<div class="form-group">
+<label for="owner-ssn">SSN (Last 4 digits) *</label>
+<input type="text" id="owner-ssn" name="ownerSsn" pattern="[0-9]{4}" maxlength="4" placeholder="XXXX" required>
+</div>
+<div class="form-group">
+<label for="owner-address">Home Address *</label>
+<input type="text" id="owner-address" name="ownerAddress" required>
+</div>
+<div class="form-group">
+<label for="government-id">Government ID *</label>
+<p class="upload-hint">Upload: Driver's License or Passport (JPG, PNG, PDF)</p>
+<input type="file" id="government-id" name="governmentId" accept=".pdf,.jpg,.png" required>
+<div class="file-list" id="government-id-list"></div>
+</div>
+<div class="form-actions">
+<button type="button" class="btn-secondary btn-prev" data-prev="2">Previous</button>
+<button type="button" class="btn-primary btn-next" data-next="4">Next</button>
+</div>
+</div>
+
+<!-- Step 4: Banking Info -->
+<div class="form-step" data-step="4">
+<h3>Banking Information</h3>
+<div class="form-group">
+<label for="bank-name">Bank Name *</label>
+<input type="text" id="bank-name" name="bankName" required>
+</div>
+<div class="form-group">
+<label for="account-type">Account Type *</label>
+<select id="account-type" name="accountType" required>
+<option value="">Select type</option>
+<option value="checking">Checking</option>
+<option value="savings">Savings</option>
+</select>
+</div>
+<div class="form-group">
+<label for="account-number">Account Number *</label>
+<input type="text" id="account-number" name="accountNumber" required>
+</div>
+<div class="form-group">
+<label for="routing-number">Routing Number *</label>
+<input type="text" id="routing-number" name="routingNumber" pattern="[0-9]{9}" maxlength="9" required>
+</div>
+<div class="form-group">
+<label for="voided-check">Voided Check *</label>
+<p class="upload-hint">Upload: Voided check or bank statement (PDF, JPG, PNG)</p>
+<input type="file" id="voided-check" name="voidedCheck" accept=".pdf,.jpg,.png" required>
+<div class="file-list" id="voided-check-list"></div>
+</div>
+<div class="form-actions">
+<button type="button" class="btn-secondary btn-prev" data-prev="3">Previous</button>
+<button type="submit" class="btn-primary">Submit Application</button>
+</div>
+</div>
+</form>
+
+<!-- Success Message -->
+<div id="application-success" class="success-message" style="display: none;">
+<h3>Application Submitted Successfully</h3>
+<p>Your RLOC application has been received. Our team will review it and contact you within 2-3 business days.</p>
+<p><strong>Application ID:</strong> <span id="application-id"></span></p>
+</div>
+</div>
+</div>
+
+<!-- Messages Tab -->
+<div id="messages-tab" class="tab-content">
+<div class="messages-container">
+<div class="messages-header">
+<h3>Secure Messaging</h3>
+<button class="btn-primary" id="new-message-btn">New Message</button>
+</div>
+<div class="messages-list" id="messages-list">
+</div>
+<div id="message-compose" class="message-compose" style="display: none;">
+<h4>Compose Message</h4>
+<form id="message-form">
+<div class="form-group">
+<label for="message-subject">Subject</label>
+<input type="text" id="message-subject" name="subject" required>
+</div>
+<div class="form-group">
+<label for="message-body">Message</label>
+<textarea id="message-body" name="body" rows="6" required></textarea>
+</div>
+<div class="form-actions">
+<button type="button" class="btn-secondary" id="cancel-message-btn">Cancel</button>
+<button type="submit" class="btn-primary">Send</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+<div class="container">
+<h2 class="section-title">Contact Us</h2>
+<p class="section-text">For inquiries about our RLOC program or general information, please contact our team.</p>
+<div class="contact-info">
+<div class="contact-item">
+<strong>Email:</strong> info@harringtoncapital.com
+</div>
+<div class="contact-item">
+<strong>Phone:</strong> (212) 555-0100
+</div>
+<div class="contact-item">
+<strong>Address:</strong> 155 Broad Street, Suite 4200, New York, NY 10005
+</div>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+<div class="footer-logo">
+<div class="logo-monogram-small footer-monogram">HC</div>
+<div class="logo-text-small footer-logo-text">
+<div>HARRINGTON</div>
+<div>CAPITAL</div>
+</div>
+</div>
+<p>&copy; 2025 Harrington Capital | 155 Broad Street, Suite 4200, New York, NY 10005</p>
+<p class="footer-disclaimer">This portal is for demonstration purposes. Secure backend integration required for production use.</p>
+</div>
+</footer>
+
+<script src="api.js"></script>
+<script src="app.js"></script>
+<script src="portal.js"></script>
+<script src="form.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

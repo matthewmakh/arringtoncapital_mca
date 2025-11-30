@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 require('dotenv').config();
 
 const db = require('./models/database');
@@ -17,7 +18,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: false, // Allow inline scripts for frontend
+}));
 app.use(cors({
     origin: process.env.CORS_ORIGIN || '*',
     credentials: true
@@ -37,6 +40,9 @@ app.use(express.urlencoded({ extended: true }));
 // Static file serving for uploads
 app.use('/uploads', express.static('uploads'));
 
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Health check
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -49,6 +55,14 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/files', fileRoutes);
 app.use('/api/messages', messageRoutes);
 
+// Serve frontend for all non-API routes (SPA support)
+app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+        return next();
+    }
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error('Error:', err);
@@ -57,7 +71,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-// 404 handler
+// 404 handler for API routes
 app.use((req, res) => {
     res.status(404).json({ error: 'Route not found' });
 });
