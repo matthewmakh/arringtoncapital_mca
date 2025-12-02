@@ -2386,9 +2386,9 @@ footer p {
 .footer-content {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: var(--spacing-xl);
-    padding: var(--spacing-xxl) 0;
-    border-bottom: 1px solid var(--border-color);
+    gap: 48px;
+    padding: 60px 0 40px;
+    border-bottom: 1px solid rgba(28, 58, 94, 0.1);
 }
 
 .footer-section {
@@ -2397,55 +2397,101 @@ footer p {
 }
 
 .footer-section h4 {
-    font-size: var(--font-md);
+    font-size: 16px;
+    font-weight: 600;
     color: var(--primary-color);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .footer-section ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .footer-section li {
-    margin-bottom: var(--spacing-xs);
+    margin-bottom: 12px;
 }
 
 .footer-section a {
     color: var(--text-light);
     text-decoration: none;
-    font-size: var(--font-sm);
-    transition: color 0.3s ease;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    display: inline-block;
 }
 
 .footer-section a:hover {
     color: var(--accent-color);
+    transform: translateX(4px);
 }
 
-.footer-address,
-.footer-contact {
-    font-size: var(--font-sm);
+.footer-address {
+    font-size: 14px;
     color: var(--text-light);
-    line-height: 1.6;
-    margin-top: var(--spacing-sm);
+    line-height: 1.8;
+    margin-top: 16px;
+    font-style: normal;
+}
+
+.footer-contact {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-top: 12px;
+}
+
+.footer-contact a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.footer-contact a:hover {
+    opacity: 0.8;
 }
 
 .footer-bottom {
-    padding: var(--spacing-lg) 0;
+    padding: 32px 0;
     text-align: center;
 }
 
+.footer-bottom > p:first-child {
+    font-size: 14px;
+    color: var(--text-dark);
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
 .footer-bottom p {
-    font-size: var(--font-xs);
+    font-size: 13px;
     color: var(--text-lighter);
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: 12px;
 }
 
 .footer-disclaimer,
 .footer-regulatory {
-    max-width: 900px;
-    margin: var(--spacing-sm) auto 0;
-    line-height: 1.5;
+    max-width: 1000px;
+    margin: 16px auto 0;
+    line-height: 1.7;
+    padding: 20px 24px;
+    background: rgba(17, 112, 184, 0.03);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent-color);
+    text-align: left;
+}
+
+.footer-disclaimer {
+    font-size: 12px;
+    color: #666;
+}
+
+.footer-regulatory {
+    font-size: 11px;
+    color: #888;
+    font-style: italic;
 }
 
 /* Hero Benefits Grid */
