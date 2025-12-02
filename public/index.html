@@ -3,10 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Harrington Capital - New York Hedge Fund | RLOC Client Portal">
-<title>Harrington Capital | RLOC Client Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="description" content="Harrington Capital provides institutional-grade capital solutions including revolving lines of credit, debt consolidation, and structured financing for growing businesses. Direct lender with revenue-based underwriting.">
+<title>Harrington Capital | Institutional-Grade Capital Solutions & RLOC Financing</title>
+<link rel="canonical" href="https://harringtoncapital.net/">
+<meta property="og:title" content="Harrington Capital | Institutional-Grade Capital Solutions">
+<meta property="og:description" content="Direct access to flexible credit facilities, revolving lines of credit, and structured capital solutions for growing businesses.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://harringtoncapital.net/">
+<meta property="og:site_name" content="Harrington Capital">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Harrington Capital | Institutional-Grade Capital Solutions">
+<meta name="twitter:description" content="Direct access to flexible credit facilities and capital solutions for growing businesses.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-tokens.css">
 <link rel="stylesheet" href="styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FinancialService",
+  "name": "Harrington Capital",
+  "url": "https://harringtoncapital.net",
+  "logo": "https://harringtoncapital.net/logo.png",
+  "description": "Institutional-grade capital solutions including revolving lines of credit, debt consolidation, and structured financing",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "155 Broad Street, Suite 4200",
+    "addressLocality": "New York",
+    "addressRegion": "NY",
+    "postalCode": "10005",
+    "addressCountry": "US"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+1-929-792-6599",
+    "contactType": "Customer Service",
+    "email": "support@harringtoncapital.net",
+    "availableLanguage": "English"
+  }
+}
+</script>
 </head>
 <body>
 
@@ -267,6 +302,9 @@
 <nav>
 <a href="#about">About</a>
 <a href="#services">Services</a>
+<a href="#team">Team</a>
+<a href="#case-studies">Case Studies</a>
+<a href="#insights">Insights</a>
 <a href="#apply">Apply</a>
 <a href="#portal" id="portal-link">Client Portal</a>
 <a href="#contact">Contact</a>
@@ -1098,16 +1136,66 @@
 <section id="contact" class="contact">
 <div class="container">
 <h2 class="section-title">Contact Us</h2>
-<p class="section-text">For inquiries about our RLOC program or general information, please contact our team.</p>
+<p class="section-text">For inquiries about our RLOC program, general information, or to schedule a consultation, please contact our team.</p>
+
+<div class="contact-wrapper">
 <div class="contact-info">
 <div class="contact-item">
-<strong>Email:</strong> info@harringtoncapital.com
+<strong>Support Email:</strong> support@harringtoncapital.net
 </div>
 <div class="contact-item">
-<strong>Phone:</strong> (212) 555-0100
+<strong>Institutional Onboarding:</strong> onboarding@harringtoncapital.net
+</div>
+<div class="contact-item">
+<strong>Phone:</strong> (929) 792-6599
 </div>
 <div class="contact-item">
 <strong>Address:</strong> 155 Broad Street, Suite 4200, New York, NY 10005
+</div>
+<div class="contact-item">
+<strong>Business Hours:</strong> Monday - Friday, 9:00 AM - 6:00 PM EST
+</div>
+<div class="contact-cta">
+<a href="https://calendly.com/harringtoncapital" class="btn-primary" target="_blank">Schedule a Consultation</a>
+</div>
+</div>
+
+<div class="contact-form-container">
+<h3>Send Us a Message</h3>
+<form id="contact-form" class="contact-form">
+<div class="form-group">
+<label for="contact-name">Name *</label>
+<input type="text" id="contact-name" name="name" required>
+</div>
+<div class="form-group">
+<label for="contact-email">Email *</label>
+<input type="email" id="contact-email" name="email" required>
+</div>
+<div class="form-group">
+<label for="contact-phone">Phone</label>
+<input type="tel" id="contact-phone" name="phone">
+</div>
+<div class="form-group">
+<label for="contact-company">Company</label>
+<input type="text" id="contact-company" name="company">
+</div>
+<div class="form-group">
+<label for="contact-subject">Subject *</label>
+<select id="contact-subject" name="subject" required>
+<option value="">Select a subject</option>
+<option value="rloc-inquiry">RLOC Program Inquiry</option>
+<option value="debt-consolidation">Debt Consolidation</option>
+<option value="structured-financing">Structured Financing</option>
+<option value="general-inquiry">General Inquiry</option>
+<option value="existing-client">Existing Client Support</option>
+</select>
+</div>
+<div class="form-group">
+<label for="contact-message">Message *</label>
+<textarea id="contact-message" name="message" rows="6" required></textarea>
+</div>
+<button type="submit" class="btn-primary">Send Message</button>
+</form>
 </div>
 </div>
 </div>
@@ -1115,6 +1203,8 @@
 
 <footer>
 <div class="container">
+<div class="footer-content">
+<div class="footer-section">
 <div class="footer-logo">
 <div class="logo-monogram-small footer-monogram">HC</div>
 <div class="logo-text-small footer-logo-text">
@@ -1122,15 +1212,53 @@
 <div>CAPITAL</div>
 </div>
 </div>
-<p>&copy; 2025 Harrington Capital | 155 Broad Street, Suite 4200, New York, NY 10005</p>
-<p class="footer-disclaimer">This portal is for demonstration purposes. Secure backend integration required for production use.</p>
+<p class="footer-address">155 Broad Street, Suite 4200<br>New York, NY 10005</p>
+<p class="footer-contact">Phone: (929) 792-6599<br>Email: support@harringtoncapital.net</p>
+</div>
+<div class="footer-section">
+<h4>Company</h4>
+<ul>
+<li><a href="#about">About Us</a></li>
+<li><a href="#team">Our Team</a></li>
+<li><a href="#case-studies">Case Studies</a></li>
+<li><a href="#insights">Insights</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</div>
+<div class="footer-section">
+<h4>Services</h4>
+<ul>
+<li><a href="#services">RLOC Financing</a></li>
+<li><a href="#services">Debt Consolidation</a></li>
+<li><a href="#services">Structured Capital</a></li>
+<li><a href="#apply">Apply for Financing</a></li>
+<li><a href="#portal">Client Portal</a></li>
+</ul>
+</div>
+<div class="footer-section">
+<h4>Legal & Compliance</h4>
+<ul>
+<li><a href="privacy-policy.html">Privacy Policy</a></li>
+<li><a href="terms-of-service.html">Terms of Service</a></li>
+<li><a href="compliance.html">Compliance Statement</a></li>
+<li><a href="aml-policy.html">AML Policy</a></li>
+<li><a href="data-protection.html">Data Protection</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2025 Harrington Capital. All rights reserved.</p>
+<p class="footer-disclaimer">Harrington Capital operates in compliance with all applicable financial regulations. All transactions are secured and encrypted. This website and its contents are for informational purposes only and do not constitute an offer to sell or a solicitation of an offer to buy any securities or financial products.</p>
+<p class="footer-regulatory">Harrington Capital maintains multi-jurisdictional compliance frameworks and adheres to SEC, FINRA, and applicable international financial regulations. All credit facilities are subject to credit approval and underwriting review.</p>
+</div>
 </div>
 </footer>
 
 <script src="api.js"></script>
+<script src="admin.js"></script>
 <script src="app.js"></script>
 <script src="portal.js"></script>
 <script src="form.js"></script>
-<script src="admin.js"></script>
+<script src="forms.js"></script>
 </body>
 </html>

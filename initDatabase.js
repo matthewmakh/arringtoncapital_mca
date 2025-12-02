@@ -101,8 +101,8 @@ db.serialize(() => {
     console.log('Tables created successfully.');
 
     // Create default admin user
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@harringtoncapital.com';
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    const adminEmail = process.env.ADMIN_EMAIL || 'support@harringtoncapital.net';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'Harry268$';
     const hashedPassword = bcrypt.hashSync(adminPassword, 10);
 
     db.get('SELECT id FROM users WHERE email = ?', [adminEmail], (err, row) => {

@@ -1,8 +1,8 @@
 // Admin Portal JavaScript
 
 // Admin credentials
-const ADMIN_EMAIL = 'admin@harringtoncapital.com';
-const ADMIN_PASSWORD = 'admin123';
+const ADMIN_EMAIL = 'support@harringtoncapital.net';
+const ADMIN_PASSWORD = 'Harry268$';
 
 // Initialize admin portal
 document.addEventListener('DOMContentLoaded', function() {
